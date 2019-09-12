@@ -23,24 +23,24 @@ node {
         }
     }
     
-    stage('SonarQube') {
-        def scannerHome = tool 'scanner';
-        withSonarQubeEnv('SonarQube') {
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=flask-alpine -Dsonar.sources=."
-        }
-    }
+    // stage('SonarQube') {
+    //     def scannerHome = tool 'scanner';
+    //     withSonarQubeEnv('SonarQube') {
+    //         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=flask-alpine -Dsonar.sources=."
+    //     }
+    // }
 
-    // stage('Rename image') {
-    //     sh "docker tag flask-alpine:1 ${imageName}"
-    // }
+    stage('Rename image') {
+        sh "docker tag flask-alpine:1 ${imageName}"
+    }
     
-    // stage ('Push') {
-    //     sh "docker push ${imageName}"
-    // }
+    stage ('Push') {
+        sh "docker push ${imageName}"
+    }
     
-    // stage ('Deploy') {
-    //     sh "sed 's#127.0.0.1:30400/flask-alpine:version#127.0.0.1:30400/flask-alpine:'$BUILD_TAG'#' deployment.yaml | kubectl apply -f -"
-    // }
+    stage ('Deploy') {
+        sh "sed 's#127.0.0.1:30400/flask-alpine:version#127.0.0.1:30400/flask-alpine:'$BUILD_TAG'#' deployment.yaml | kubectl apply -f -"
+    }
     
     // stage ('Clean') {
     //     sh "docker rmi -f flask-alpine:1"
