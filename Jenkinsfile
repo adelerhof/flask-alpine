@@ -1,8 +1,8 @@
 node {
     stage('Checkout SCM') {
         checkout scm
-        // sh "git rev-parse --short HEAD > commit-id"
-        // tag = readFile('commit-id').replace("\n", "").replace("\r", "")
+        sh "git rev-parse --short HEAD > commit-id"
+        tag = readFile('commit-id').replace("\n", "").replace("\r", "")
         // appname = "flask-alpine:"
         // registryHost = "127.0.0.1:30400/"
         // env.imageName = "${registryHost}${appname}${tag}"
