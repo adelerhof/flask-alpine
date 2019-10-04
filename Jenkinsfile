@@ -15,11 +15,11 @@ node {
         
     docker.image('flask-alpine:1').inside {
         stage('Test') {
-            // sh 'coverage run test_app.py'
-            // sh 'coverage xml -o coverage-reports/coverage-.xml'
+            sh 'coverage run test_app.py'
+            sh 'coverage xml -o coverage-reports/coverage-.xml'
             sh 'pytest --junitxml=reports/results.xml'
             junit 'reports/*.xml'
-            // cobertura coberturaReportFile: 'coverage-reports/coverage-.xml'
+            cobertura coberturaReportFile: 'coverage-reports/coverage-.xml'
         }
     }
     
