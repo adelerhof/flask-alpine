@@ -35,7 +35,9 @@ node {
     }
     
     stage ('Push') {
-        sh "docker push ${imageName}"
+        docker.withRegistry('https://registry.adelerhof.eu:49086', 'registry.adelerhof.eu') {
+            sh "docker push ${imageName}"
+        }
     }
     
     // stage ('Deploy') {
