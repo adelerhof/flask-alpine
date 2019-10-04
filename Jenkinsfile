@@ -36,7 +36,9 @@ node {
     
     stage ('Push') {
         docker.withRegistry('https://registry.adelerhof.eu:49086', 'registry.adelerhof.eu') {
-            sh "docker push ${imageName}"
+            def customImage = docker.build("${imageName}")
+            customImage.push()
+            // sh "docker push ${imageName}"
         }
     }
     
