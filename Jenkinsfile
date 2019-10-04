@@ -3,10 +3,10 @@ node {
         checkout scm
         sh "git rev-parse --short HEAD > commit-id"
         tag = readFile('commit-id').replace("\n", "").replace("\r", "")
-        // appname = "flask-alpine:"
-        // registryHost = "127.0.0.1:30400/"
-        // env.imageName = "${registryHost}${appname}${tag}"
-        // env.BUILD_TAG=tag
+        appname = "flask-alpine:"
+        registryHost = "registry.adelerhof.eu:49086/"
+        env.imageName = "${registryHost}${appname}${tag}"
+        env.BUILD_TAG=tag
     }
 
     stage ('Build') {
@@ -30,13 +30,13 @@ node {
         }
     }
 
-    // stage('Rename image') {
-    //     sh "docker tag flask-alpine:1 ${imageName}"
-    // }
+    stage('Rename image') {
+        sh "docker tag flask-alpine:1 ${imageName}"
+    }
     
-    // stage ('Push') {
-    //     sh "docker push ${imageName}"
-    // }
+    stage ('Push') {
+        sh "docker push ${imageName}"
+    }
     
     // stage ('Deploy') {
     //     sh "sed 's#127.0.0.1:30400/flask-alpine:version#127.0.0.1:30400/flask-alpine:'$BUILD_TAG'#' deployment.yaml | kubectl apply -f -"
