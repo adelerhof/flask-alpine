@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, escape, request
 import datetime
 buildDT = datetime.datetime.now()
 
@@ -8,7 +8,10 @@ app = Flask(__name__)
 def hello():
 
     # return 'Hello World!?\n'
-    return '(str(currentDT))\n'
+    # name = request.args.get("name", "World")
+    return f'(str(currentDT))\n'
+
+    # return f'Hello, {escape(name)}!'
 
 
 if __name__ == "__main__":
