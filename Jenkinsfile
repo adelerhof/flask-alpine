@@ -32,6 +32,7 @@ node {
 
     stage('Rename image') {
         sh "docker tag flask-alpine:1 ${imageName}"
+        sh "docker tag flask-alpine:1 flask-alpine:latest"
     }
     
     stage ('Push') {
@@ -41,7 +42,15 @@ node {
             // sh "docker push ${imageName}"
         }
     }
-    
+
+    stage ('Push Latest') {
+        docker.withRegistry('https://registry.adelerhof.eu:49086', 'registry.adelerhof.eu') {
+            def customImage = docker.build("flask-alpine:latest")
+            customImage.push()
+            // sh "docker push ${imageName}"
+        }
+    }
+
     // stage ('Deploy') {
     //     sh "sed 's#127.0.0.1:30400/flask-alpine:version#127.0.0.1:30400/flask-alpine:'$BUILD_TAG'#' deployment.yaml | kubectl apply -f -"
     // }
@@ -49,6 +58,7 @@ node {
     stage ('Clean') {
         sh "docker rmi -f flask-alpine:1"
         sh "docker rmi -f ${imageName}"
+        sh "docker rmi -f flask-alpine:latest"
     }
 }
         
